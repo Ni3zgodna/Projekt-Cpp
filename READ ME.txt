@@ -1,0 +1,3 @@
+	Projekt CPP
+
+Idea - gra, polegająca na tworzeniu równań matematycznych o określonej długości
