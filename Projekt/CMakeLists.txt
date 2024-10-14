@@ -5,8 +5,8 @@ project(Projekt LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(Projekt main.cpp rownania.cpp
-    Projekt.h)
+add_executable(Projekt main.cpp funkcje.cpp
+    projekt.h)
 
 include(GNUInstallDirs)
 install(TARGETS Projekt
