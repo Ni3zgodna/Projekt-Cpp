@@ -7,3 +7,5 @@ Harmonogram:
 07.10.24 - Powstanie pomysłu projektu, dobór bibliotek, zapoznanie z dokumentacją
 
 14.10.24 - Utworzenie głównego szkieletu kodu (main.cpp) oraz pliku funkcji związanych z równaniem gry (funkcje.cpp), a także pliku łączącego header (projekt.h) strukturę równania
+
+17.10.24 - Dodanie przypadków, gdzie równanie jest równaniem z mnożeniem
