@@ -2,6 +2,7 @@
 #define PROJEKT_H
 
 #include <string>
+#include <utility>
 
 
 struct rownanie
@@ -15,8 +16,7 @@ struct rownanie
 
     int losuj_liczba(int zakres_max, int zakres_min);
     char losuj_symbol();
-    int mnozenie(char znak, int skladnik_1);
-    int znajdz_skladnik_2(char znak, int skladnik_1);
+    std::pair<int, int> znajdz_skladniki(char znak);
 
 
 #endif // PROJEKT_H
