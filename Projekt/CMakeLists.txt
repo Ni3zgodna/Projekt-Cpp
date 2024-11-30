@@ -7,11 +7,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
 add_executable(Projekt main.cpp
-    funkcje.cpp
-    projekt.h
+    matematyka.cpp
+    matematyka.h
     mainwindow.h
     mainwindow.cpp
     mainwindow.ui
+
 )
 
 include(GNUInstallDirs)

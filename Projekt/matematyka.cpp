@@ -1,4 +1,6 @@
-#include "Projekt.h"
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+#include "matematyka.h"
 
 #include <iostream>
 #include <cstdlib>
@@ -82,3 +84,86 @@ std::pair<int,int> znajdz_skladniki(char znak)
         return std::make_pair(skladnik_1, odejmowanie(skladnik_1));
     }
 }
+
+rownanie losowanie_rownania()
+{
+    srand(static_cast<unsigned int>(time(0)));
+
+    rownanie a;
+    a.symbol = losuj_symbol();
+
+    std::pair<int,int> skladniki = znajdz_skladniki(a.symbol);
+
+    a.skladnik_1 = skladniki.first;
+    a.skladnik_2 = skladniki.second;
+
+    switch (a.symbol) {
+        case '+':
+            a.rozwiazanie =  a.skladnik_1 + a.skladnik_2;
+            break;
+        case '-':
+            a.rozwiazanie =  a.skladnik_1 - a.skladnik_2;
+            break;
+        case '/':
+            a.rozwiazanie = a.skladnik_1 / a.skladnik_2;
+            break;
+        case '*':
+            a.rozwiazanie =  a.skladnik_1 * a.skladnik_2;
+            break;
+    }
+
+    a.zapis_rownania = std::to_string(a.skladnik_1) + a.symbol + std::to_string(a.skladnik_2) + "=" + std::to_string(a.rozwiazanie);
+
+    std::cout << a.zapis_rownania;
+
+
+    return a;
+
+}
+
+rownanie zapis_rownania(std::string a)
+{
+    rownanie b;
+    std::string pom;
+
+    int i = 0;
+
+    for(i; i < a.size(); i++)
+    {
+        if(a[i] != '+' && a[i] != '-' && a[i] != '/'&& a[i] != '*')
+            pom += a[i];
+        else
+        {
+            b.symbol = a[i];
+            break;
+        }
+
+    }
+
+    b.skladnik_1 = std::stoi(pom);
+    pom = {};
+
+    for(i; i < a.size(); i++)
+    {
+        if(a[i] != '=')
+            pom += a[i];
+        else
+            break;
+    }
+
+    b.skladnik_2 = std::stoi(pom);
+    pom = {};
+
+    for(i; i < a.size(); i++)
+    {
+        if(a[i] != '=')
+            pom += a[i];
+    }
+
+    b.rozwiazanie = std::stoi(pom);
+    pom = {};
+
+    return b;
+}
+
+

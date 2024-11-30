@@ -2,9 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "matematyka.h"
 
 namespace Ui {
-class MainWindow;
+    class MainWindow;
 }
 
 class MainWindow : public QMainWindow {
@@ -14,9 +15,17 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    QStringList getCollectedValues() const;
+
 private:
     Ui::MainWindow *ui;
+    rownanie wylosowane;
+    rownanie zgadywane;
+
     void setupLineEdits();
+
+private slots:
+    void onEnterPressed();
 };
 
 #endif // MAINWINDOW_H

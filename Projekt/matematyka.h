@@ -1,6 +1,7 @@
-#ifndef PROJEKT_H
-#define PROJEKT_H
-
+#ifndef MATEMATYKA_H
+#define MATEMATYKA_H
+\
+#include <QMainWindow>
 #include <string>
 #include <utility>
 
@@ -16,7 +17,9 @@ struct rownanie
 
     int losuj_liczba(int zakres_max, int zakres_min);
     char losuj_symbol();
+    rownanie losowanie_rownania();
+    rownanie zapis_rownania(std::string a);
     std::pair<int, int> znajdz_skladniki(char znak);
 
 
-#endif // PROJEKT_H
+#endif // MATEMATYKA_H
