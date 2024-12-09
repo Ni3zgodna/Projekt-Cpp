@@ -1,5 +1,5 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
+//#include "mainwindow.h"
+//#include "ui_mainwindow.h"
 #include "matematyka.h"
 
 #include <iostream>
@@ -83,6 +83,7 @@ std::pair<int,int> znajdz_skladniki(char znak)
         skladnik_1 = 20 + std::rand() % (108 - 20 + 1);
         return std::make_pair(skladnik_1, odejmowanie(skladnik_1));
     }
+    throw std::logic_error("gŁUPI BŁĄD");
 }
 
 rownanie losowanie_rownania()
@@ -133,7 +134,7 @@ rownanie zapis_rownania(std::string a)
 
     int i = 0;
 
-    for(i; i < a.size(); i++)
+    for(; i < a.size(); i++)
     {
         if(a[i] != '+' && a[i] != '-' && a[i] != '/'&& a[i] != '*')
             pom += a[i];
@@ -157,7 +158,7 @@ rownanie zapis_rownania(std::string a)
     b.skladnik_1 = std::stoi(pom);
     pom = {};
 
-    for(i; i < a.size(); i++)
+    for(; i < a.size(); i++)
     {
         if(a[i] != '=')
             pom += a[i];
@@ -178,7 +179,7 @@ rownanie zapis_rownania(std::string a)
     b.skladnik_2 = std::stoi(pom);
     pom = {};
 
-    for(i; i < a.size(); i++)
+    for(; i < a.size(); i++)
     {
         pom += a[i];
     }
