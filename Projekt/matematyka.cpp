@@ -123,6 +123,11 @@ rownanie losowanie_rownania()
 
 rownanie zapis_rownania(std::string a)
 {
+    bool blad = 1;
+
+    rownanie puste;
+    puste.zapis_rownania = "Blad";
+
     rownanie b;
     std::string pom;
 
@@ -135,10 +140,19 @@ rownanie zapis_rownania(std::string a)
         else
         {
             b.symbol = a[i];
+            blad = 0;
             break;
         }
 
     }
+
+
+    if(blad)
+    {
+        return puste;
+    }
+
+    blad = 1;
 
     b.skladnik_1 = std::stoi(pom);
     pom = {};
@@ -148,20 +162,50 @@ rownanie zapis_rownania(std::string a)
         if(a[i] != '=')
             pom += a[i];
         else
+        {
+            blad = 0;
             break;
+        }
     }
+
+    if(blad)
+    {
+        return puste;
+    }
+
+    blad = 1;
 
     b.skladnik_2 = std::stoi(pom);
     pom = {};
 
     for(i; i < a.size(); i++)
     {
-        if(a[i] != '=')
-            pom += a[i];
+        pom += a[i];
     }
+
+
 
     b.rozwiazanie = std::stoi(pom);
     pom = {};
+
+    switch (b.symbol) {
+    case '+':
+        if(b.skladnik_1 + b.skladnik_2 != b.rozwiazanie)
+            return puste;
+        break;
+    case '-':
+        if(b.skladnik_1 - b.skladnik_2 != b.rozwiazanie)
+            return puste;
+        break;
+    case '/':
+        if(b.skladnik_1 / b.skladnik_2 != b.rozwiazanie)
+            return puste;
+        break;
+    case '*':
+        if(b.skladnik_1 * b.skladnik_2 != b.rozwiazanie)
+            return puste;
+        break;
+    }
 
     return b;
 }

@@ -26,6 +26,7 @@ private:
 
 private slots:
     void onEnterPressed();
+    void eq_false();
 };
 
 #endif // MAINWINDOW_H

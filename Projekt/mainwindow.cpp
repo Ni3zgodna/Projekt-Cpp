@@ -9,7 +9,10 @@
 #include <QDebug>
 
 int runda = 1;
+bool blad = 0;
+
 QList<QLineEdit*> lineEdits;
+QList<QLineEdit*> all_lineEdits;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -28,7 +31,7 @@ void MainWindow::setupLineEdits() {
     QRegularExpression znaki("[0-9=+-/*]");
     QRegularExpressionValidator *ograniczenie = new QRegularExpressionValidator(znaki, this);
 
-    QList<QLineEdit*> all_lineEdits = {
+    all_lineEdits = {
         ui->lineEdit_1_1, ui->lineEdit_1_2, ui->lineEdit_1_3, ui->lineEdit_1_4,
         ui->lineEdit_1_5, ui->lineEdit_1_6, ui->lineEdit_1_7, ui->lineEdit_1_8,
 
@@ -54,10 +57,9 @@ void MainWindow::setupLineEdits() {
         ui->lineEdit_8_5, ui->lineEdit_8_6, ui->lineEdit_8_7, ui->lineEdit_8_8
     };
 
-    for (int i = 0; i < all_lineEdits.size(); i++)
+    for (QLineEdit *lineEdit : all_lineEdits)
     {
-        QLineEdit *all_lineEdit = all_lineEdits[i];
-        all_lineEdit->setEnabled(false);
+        lineEdit->setEnabled(false);
     }
 
     switch (runda) {
@@ -113,16 +115,17 @@ void MainWindow::setupLineEdits() {
         lineEdits = {};
         break;
     }
-        for (int i = 0; i < lineEdits.size(); i++)
-        {
-            QLineEdit *lineEdit = lineEdits[i];
+    for (QLineEdit *lineEdit : lineEdits)
+    {
+        if(!blad)
+            lineEdit->setStyleSheet("border: 1px solid orange; font-size: 20px; text-align: center;");
 
-            lineEdit->setEnabled(true);
-            lineEdit->setValidator(ograniczenie);
-            lineEdit->setMaxLength(1);
+        lineEdit->setEnabled(true);
+        lineEdit->setValidator(ograniczenie);
+        lineEdit->setMaxLength(1);
 
-            connect(lineEdit, &QLineEdit::returnPressed, this, &MainWindow::onEnterPressed);
-        }
+        connect(lineEdit, &QLineEdit::returnPressed, this, &MainWindow::onEnterPressed);
+    }
 }
 
 void MainWindow::onEnterPressed() {
@@ -140,8 +143,25 @@ void MainWindow::onEnterPressed() {
 
     zgadywane = zapis_rownania(wartosci);
 
+    if(zgadywane.zapis_rownania == "Blad")
+        eq_false();
+    else
+    {
+        runda++;
 
-    runda++;
+        for (QLineEdit *lineEdit : lineEdits)
+            lineEdit->setStyleSheet("border: 1px solid black; font-size: 20px; text-align: center;");
+
+        blad = 0;
+        setupLineEdits();
+    }
+}
+
+void MainWindow::eq_false()
+{
+    for (QLineEdit *lineEdit : lineEdits)
+        lineEdit->setStyleSheet("border: 1px solid red; font-size: 20px; text-align: center;");
+    blad = 1;
     setupLineEdits();
 }
 
