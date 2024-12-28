@@ -3,6 +3,8 @@
 #include "matematyka.h"
 
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 #include <QLineEdit>
 #include <QRegularExpression>
 #include <QRegularExpressionValidator>
@@ -18,6 +20,9 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
     wylosowane = losowanie_rownania();
+
+    srand(static_cast<unsigned int>(time(0)));
+
     setupLineEdits();
 
 }
@@ -149,8 +154,34 @@ void MainWindow::onEnterPressed() {
     {
         runda++;
 
-        for (QLineEdit *lineEdit : lineEdits)
-            lineEdit->setStyleSheet("border: 1px solid black; font-size: 20px; text-align: center;");
+        for (int i = 0; i < 8; i++)
+        {
+            bool zmiana = 1;
+
+            std::cout << zgadywane.zapis_rownania[i] << " ";
+            std::cout << wylosowane.zapis_rownania[i] << "\n";
+
+            if(zgadywane.zapis_rownania[i] == wylosowane.zapis_rownania[i])
+            {
+                lineEdits[i]->setStyleSheet("border: 1px solid green; font-size: 20px; text-align: center;");
+                zmiana = 0;
+                continue;
+            }
+            else
+                for (int j = 0; j < 8; j++)
+                {
+                    if(zgadywane.zapis_rownania[i] == wylosowane.zapis_rownania[j])
+                    {
+                        lineEdits[i]->setStyleSheet("border: 1px solid yellow; font-size: 20px; text-align: center;");
+                        zmiana = 0;
+                        break;
+                    }
+                }
+
+            if(zmiana)
+                lineEdits[i]->setStyleSheet("border: 1px solid red; font-size: 20px; text-align: center;");
+
+        }
 
         blad = 0;
         setupLineEdits();

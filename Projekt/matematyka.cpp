@@ -5,13 +5,19 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <random>
 #include <string>
 #include <utility>
 #include <vector>
 
 int losuj_liczba(int zakres_max, int zakres_min)
-{ 
-    return zakres_min + std::rand() % (zakres_max - zakres_min + 1);
+{
+    std::random_device rd;
+    std::mt19937 gen(rd());
+
+    std::uniform_int_distribution<> dis(zakres_min, zakres_max);
+
+    return dis(gen);
 }
 
 char losuj_symbol()
@@ -49,7 +55,7 @@ int dzielenie(int skladnik_1)
 
 int dodawanie(int skladnik_1)
 {
-    return losuj_liczba(118 - skladnik_1, 100 - skladnik_1);
+    return losuj_liczba(118 - skladnik_1, 99 - skladnik_1);
 }
 
 int odejmowanie(int skladnik_1)
@@ -88,8 +94,6 @@ std::pair<int,int> znajdz_skladniki(char znak)
 
 rownanie losowanie_rownania()
 {
-    srand(static_cast<unsigned int>(time(0)));
-
     rownanie a;
     a.symbol = losuj_symbol();
 
@@ -115,10 +119,13 @@ rownanie losowanie_rownania()
 
     a.zapis_rownania = std::to_string(a.skladnik_1) + a.symbol + std::to_string(a.skladnik_2) + "=" + std::to_string(a.rozwiazanie);
 
-    std::cout << a.zapis_rownania;
+    std::cout << a.zapis_rownania << "\n";
 
+    if(a.zapis_rownania.size() > 8)
+        return losowanie_rownania();
 
-    return a;
+    else
+        return a;
 
 }
 
@@ -154,6 +161,7 @@ rownanie zapis_rownania(std::string a)
     }
 
     blad = 1;
+    i++;
 
     b.skladnik_1 = std::stoi(pom);
     pom = {};
@@ -162,7 +170,7 @@ rownanie zapis_rownania(std::string a)
     {
         if(a[i] != '=')
             pom += a[i];
-        else
+            else
         {
             blad = 0;
             break;
@@ -174,17 +182,15 @@ rownanie zapis_rownania(std::string a)
         return puste;
     }
 
-    blad = 1;
-
     b.skladnik_2 = std::stoi(pom);
+
     pom = {};
+    i++;
 
     for(; i < a.size(); i++)
     {
         pom += a[i];
     }
-
-
 
     b.rozwiazanie = std::stoi(pom);
     pom = {};
@@ -207,6 +213,8 @@ rownanie zapis_rownania(std::string a)
             return puste;
         break;
     }
+
+    b.zapis_rownania = std::to_string(b.skladnik_1) + b.symbol + std::to_string(b.skladnik_2) + "=" + std::to_string(b.rozwiazanie);
 
     return b;
 }
