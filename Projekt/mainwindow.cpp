@@ -135,6 +135,7 @@ void MainWindow::setupLineEdits() {
 
 void MainWindow::onEnterPressed() {
 
+    bool wygrana = 1;
     QStringList values;
     for (QLineEdit *lineEdit : lineEdits) {
         values.append(lineEdit->text());
@@ -170,6 +171,7 @@ void MainWindow::onEnterPressed() {
             else
                 for (int j = 0; j < 8; j++)
                 {
+                    wygrana = 0;
                     if(zgadywane.zapis_rownania[i] == wylosowane.zapis_rownania[j])
                     {
                         lineEdits[i]->setStyleSheet("border: 1px solid yellow; font-size: 20px; text-align: center;");
@@ -184,7 +186,19 @@ void MainWindow::onEnterPressed() {
         }
 
         blad = 0;
-        setupLineEdits();
+
+
+        if(!wygrana)
+            setupLineEdits();
+        else
+        {
+
+            for (QLineEdit *lineEdit : lineEdits)
+                lineEdit->setEnabled(false);
+
+
+            
+        }
     }
 }
 
