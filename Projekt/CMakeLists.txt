@@ -4,14 +4,16 @@ project(Projekt LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Widgets Multimedia)
 
-add_executable(Projekt main.cpp
+add_executable(Projekt
+    main.cpp
     matematyka.cpp
     matematyka.h
     mainwindow.h
     mainwindow.cpp
     mainwindow.ui
+    Resources.qrc
 
 )
 
@@ -22,10 +24,14 @@ install(TARGETS Projekt
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
-set_target_properties(Projekt PROPERTIES
-    AUTOMOC ON
-    AUTOUIC ON
+target_link_libraries(Projekt PRIVATE
+    Qt6::Widgets
+    Qt6::Multimedia
 )
 
-find_package(Qt6 REQUIRED COMPONENTS Widgets)
-target_link_libraries(Projekt PRIVATE Qt6::Widgets)
+
+set_target_properties(Projekt PROPERTIES
+    AUTOMOC ON
+    AUTORCC ON
+    AUTOUIC ON
+)

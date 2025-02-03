@@ -4,6 +4,9 @@
 #include <QMainWindow>
 #include "matematyka.h"
 
+#include <QKeyEvent>
+#include <QObject>
+
 namespace Ui {
     class MainWindow;
 }
@@ -23,6 +26,7 @@ private:
     rownanie zgadywane;
 
     void setupLineEdits();
+    bool eventFilter(QObject *obj, QEvent *event) override;
 
 private slots:
     void onEnterPressed();

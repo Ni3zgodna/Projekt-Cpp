@@ -5,10 +5,17 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <QApplication>
 #include <QLineEdit>
 #include <QRegularExpression>
 #include <QRegularExpressionValidator>
 #include <QDebug>
+
+#include <QMediaPlayer>
+#include <QUrl>
+#include <QMediaPlayer>
+#include <QAudioOutput>
+
 
 int runda = 1;
 bool blad = 0;
@@ -20,9 +27,9 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
     wylosowane = losowanie_rownania();
+    std::cout << wylosowane.zapis_rownania;
 
     srand(static_cast<unsigned int>(time(0)));
-
     setupLineEdits();
 
 }
@@ -130,7 +137,46 @@ void MainWindow::setupLineEdits() {
         lineEdit->setMaxLength(1);
 
         connect(lineEdit, &QLineEdit::returnPressed, this, &MainWindow::onEnterPressed);
+
+        // Install event filter to handle backspace
+        lineEdit->installEventFilter(this);
+
+        connect(lineEdit, &QLineEdit::textChanged, this, [this, lineEdit](const QString &text) {
+            int index = 0;
+
+            QString textCopy = text;
+            if (lineEdit->validator()->validate(textCopy, index) == QValidator::Acceptable) {
+                if (text.length() == 1) {
+                    int currentIndex = lineEdits.indexOf(lineEdit);
+                    if (currentIndex < lineEdits.size() - 1) {
+                        lineEdits[currentIndex + 1]->setFocus();
+                    }
+                } else {
+                    lineEdit->setText(text.left(1));
+                }
+            } else {
+                lineEdit->clear();
+            }
+        });
     }
+}
+
+bool MainWindow::eventFilter(QObject *object, QEvent *event) {
+    QLineEdit *text = qobject_cast<QLineEdit*>(object);
+    
+    if (text  &&  event->type() == QEvent::KeyPress) {
+        QKeyEvent *event_press = static_cast<QKeyEvent*>(event);
+        
+        if (event_press->key() == Qt::Key_Backspace  &&  text->text().isEmpty()) {
+            int index = lineEdits.indexOf(text);
+            
+            if (index > 0) {
+                lineEdits[index - 1]->setFocus();
+                return true;
+            }
+        }
+    }
+    return QMainWindow::eventFilter(object, event);
 }
 
 void MainWindow::onEnterPressed() {
@@ -187,6 +233,21 @@ void MainWindow::onEnterPressed() {
 
         blad = 0;
 
+        if(runda == 9 && !wygrana)
+        {
+            QMediaPlayer *mediaPlayer = new QMediaPlayer;
+            QAudioOutput *audioOutput = new QAudioOutput;
+
+            mediaPlayer->setAudioOutput(audioOutput);
+
+            QString musicFile = "qrc:/sounds/Przegrana.mp3";
+            mediaPlayer->setSource(QUrl(musicFile));
+
+
+            audioOutput->setVolume(50);
+            mediaPlayer->play();
+        }
+
 
         if(!wygrana)
             setupLineEdits();
@@ -196,8 +257,19 @@ void MainWindow::onEnterPressed() {
             for (QLineEdit *lineEdit : lineEdits)
                 lineEdit->setEnabled(false);
 
+            QMediaPlayer *mediaPlayer = new QMediaPlayer;
+            QAudioOutput *audioOutput = new QAudioOutput;
 
-            
+            mediaPlayer->setAudioOutput(audioOutput);
+
+            QString musicFile = "qrc:/sounds/Wygrana.mp3";
+            mediaPlayer->setSource(QUrl(musicFile));
+
+
+            audioOutput->setVolume(50);
+            mediaPlayer->play();
+
+
         }
     }
 }

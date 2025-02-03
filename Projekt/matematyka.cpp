@@ -76,7 +76,11 @@ std::pair<int,int> znajdz_skladniki(char znak)
     }
     if(znak == '/')
     {
-        skladnik_1 = 100 + std::rand() % (198 - 100 + 1);
+        int liczby[] = {100, 102, 104, 105, 106, 108, 110, 112, 114, 115, 116, 
+                                118, 120, 124, 125, 126, 128, 130, 132, 134, 135, 136, 
+                                138, 140, 142, 144, 145, 146, 148, 150};
+        int index = std::rand() % (sizeof(liczby) / sizeof(liczby[0]));
+        skladnik_1 = liczby[index];
         return std::make_pair(skladnik_1, dzielenie(skladnik_1));
     }
     if(znak == '+')
