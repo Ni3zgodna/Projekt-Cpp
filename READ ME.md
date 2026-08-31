@@ -1,6 +1,6 @@
 ### Projekt CPP
 
-Idea - gra polegająca na tworzeniu równań matematycznych o określonej długości
+Idea - gra polegająca na tworzeniu równań matematycznych o określonej długości (math wordle)
 
 ### Harmonogram:
 
@@ -27,4 +27,4 @@ Idea - gra polegająca na tworzeniu równań matematycznych o określonej długo
 
 - 23.12.24 - Testy gry
 
-- 
+
